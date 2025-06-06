@@ -6,5 +6,6 @@
         public string FullProverb { get; set; } = string.Empty;
         public string WhoSay { get; set; } = string.Empty;
         public string? ImageUrl { get; set; }
+        public int ActivateCode { get; set; }
     }
 }

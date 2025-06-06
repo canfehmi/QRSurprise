@@ -7,6 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="wwwroot\admin\.github\ISSUE_TEMPLATE\bug-report-for-adminlte-v2-4-x.md" />
+    <None Include="wwwroot\admin\.github\ISSUE_TEMPLATE\bug-report-for-adminlte-v3-x.md" />
+    <None Include="wwwroot\admin\.github\ISSUE_TEMPLATE\feature-request-for-adminlte-v3-x.md" />
     <None Include="wwwroot\Broadcast-1.0.0\.DS_Store" />
     <None Include="wwwroot\Broadcast-1.0.0\assets\.DS_Store" />
   </ItemGroup>

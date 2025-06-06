@@ -7,7 +7,7 @@ namespace QRSurprise.Models.DAL.Context
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Server=DESKTOP-E7MGKIP;initial catalog=SurpriseDb;integrated security=true;");
+            optionsBuilder.UseSqlServer("Server=DESKTOP-LG31GOE;initial catalog=SurpriseDb;integrated security=true;TrustServerCertificate=True;");
         }
         public DbSet<Image> Images { get; set; }
         public DbSet<Proverb> Proverbs { get; set; }

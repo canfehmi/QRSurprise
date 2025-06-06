@@ -1,0 +1,52 @@
+﻿@model QRSurprise.Models.DAL.Entities.Image;
+@{
+    ViewData["Title"] = "CreateImage";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Yorum Ekle</h1>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">Yeni Fotoğraf <small>Ekleme Ekranı</small></h3>
+                    </div>
+                    <form method="post" asp-action="CreateImage">
+                        <div class="card-body">
+                            <div class="form-group">
+                                @Html.Label("Fotoğraf Açıklaması:")
+                                @Html.TextAreaFor(x => x.Description, new { @class = "form-control" })
+                            </div>
+                            <div class="form-group">
+                                @Html.Label("Fotoğraf URL:")
+                                @Html.TextBoxFor(x => x.ImageUrl, new { @class = "form-control" })
+                            </div>
+                            <div class="form-group">
+                                @Html.Label("Aktivasyon Kodu:")
+                                @Html.TextBoxFor(x => x.ActivateCode, new { @class = "form-control" })
+                            </div>
+                        </div>
+
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-primary">Ekle</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
