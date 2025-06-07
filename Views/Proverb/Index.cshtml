@@ -34,6 +34,7 @@
                     <th>Söz</th>
                     <th>Kim Söyledi?</th>
                     <th>Aktivasyon Kodu</th>
+                    <th>Okundu Bilgisi</th>
                     <th>Düzenle</th>
                 </tr>
             </thead>
@@ -45,7 +46,8 @@
                         <td>@item.Id</td>
                         <td>@item.FullProverb</td>
                         <td>@item.WhoSay</td>
-                        <td>@item.ActivateCode</td>
+                        <td>@item.IsActive</td>
+                        <td>@item.IsRead</td>
                         <td><a href="/Proverb/UpdateProverb/@item.Id" class="btn btn-warning">Düzenle</a></td>
                     </tr>
                 }
@@ -57,6 +59,7 @@
                     <th>Söz</th>
                     <th>Kim Söyledi?</th>
                     <th>Aktivasyon Kodu</th>
+                    <th>Okundu Bilgisi</th>
                     <th>Düzenle</th>
                 </tr>
             </tfoot>

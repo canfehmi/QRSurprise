@@ -1,10 +1,16 @@
-﻿<div class="inner">
+﻿@model QRSurprise.Models.DAL.Entities.Proverb
+<div class="inner">
 	<header>
 		<h1>@ViewBag.Proverb</h1>
 		<p>
 			@ViewBag.WhoSay
 		</p>
 	</header>
-	<a href="#main" class="button big alt scrolly">Dignissim</a>
+	@using (Html.BeginForm("ReadIt", "Home", FormMethod.Post))
+    {
+        <div class="form-group">
+			<button class="btn btn-success" onclick="return confirm('Bu mesajı okudun, Yakında yenisini ekleyeceğim?')">Sevdim Bunu</button>
+        </div>
+    }
 </div>
 </section>

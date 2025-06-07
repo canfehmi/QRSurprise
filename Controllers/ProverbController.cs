@@ -24,10 +24,10 @@ namespace QRSurprise.Controllers
             if (ModelState.IsValid)
             {
                 _context.Proverbs.Add(proverb);
-                var old = _context.Proverbs.FirstOrDefault(x => x.ActivateCode == 705);
+                var old = _context.Proverbs.FirstOrDefault(x => x.IsActive == true);
                 if (old != null)
                 {
-                    old.ActivateCode = 0;
+                    old.IsActive = false;
                     _context.Proverbs.Update(old);
                 }
                 _context.SaveChanges();
@@ -51,6 +51,15 @@ namespace QRSurprise.Controllers
             if (ModelState.IsValid)
             {
                 _context.Proverbs.Update(proverb);
+                if(proverb.IsActive)
+                {
+                    var old = _context.Proverbs.FirstOrDefault(x => x.IsActive == true && x.Id != proverb.Id);
+                    if (old != null)
+                    {
+                        old.IsActive = false;
+                        _context.Proverbs.Update(old);
+                    }
+                }
                 _context.SaveChanges();
                 return RedirectToAction("Index");
             }

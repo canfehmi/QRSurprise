@@ -9,8 +9,8 @@ namespace QRSurprise.ViewComponents
 
         public IViewComponentResult Invoke()
         {
-            ViewBag.Proverb = _context.Proverbs.FirstOrDefault(x => x.ActivateCode == 705).FullProverb;
-            ViewBag.WhoSay = _context.Proverbs.FirstOrDefault(x => x.ActivateCode == 705).WhoSay;
+            ViewBag.Proverb = _context.Proverbs.FirstOrDefault(x => x.IsActive == true).FullProverb;
+            ViewBag.WhoSay = _context.Proverbs.FirstOrDefault(x => x.IsActive == true).WhoSay;
             return View();
         }
     }

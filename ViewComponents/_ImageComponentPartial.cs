@@ -8,7 +8,7 @@ namespace QRSurprise.ViewComponents
         ApplicationDbContext _context = new ApplicationDbContext();
         public IViewComponentResult Invoke()
         {
-            var value = _context.Images.FirstOrDefault(x => x.ActivateCode == 705);
+            var value = _context.Images.FirstOrDefault(x => x.IsActive == true);
             if (value != null)
             {
                 ViewBag.Image = value.ImageUrl;

@@ -29,10 +29,10 @@ namespace QRSurprise.Controllers
             if (ModelState.IsValid)
             {
                 _context.Images.Add(img);
-                var old = _context.Images.FirstOrDefault(x => x.ActivateCode == 705);
+                var old = _context.Images.FirstOrDefault(x => x.IsActive == true);
                 if (old != null)
                 {
-                    old.ActivateCode = 0; 
+                    old.IsActive = false; 
                     _context.Images.Update(old);
                 }
                 _context.SaveChanges();
@@ -56,6 +56,15 @@ namespace QRSurprise.Controllers
             if (ModelState.IsValid)
             {
                 _context.Images.Update(image);
+                if(image.IsActive)
+                {
+                    var old = _context.Images.FirstOrDefault(x => x.IsActive == true && x.Id != image.Id);
+                    if (old != null)
+                    {
+                        old.IsActive = false;
+                        _context.Images.Update(old);
+                    }
+                }
                 _context.SaveChanges();
                 return RedirectToAction("Index");
             }
