@@ -1,4 +1,4 @@
-﻿@model QRSurprise.Models.DAL.Entities.Recipe;
+﻿@model QRSurprise.Models.DAL.Entities.Recipe
 @{
 	ViewData["Title"] = "CreateRecipe";
 	Layout = "~/Views/Shared/_AdminLayout.cshtml";
@@ -23,7 +23,7 @@
 						<h3 class="card-title">Yeni Tarif <small>Ekleme Ekranı</small></h3>
 					</div>
 
-                    <form method="post" asp-action="CreateRecipe" asp-controller="Recipe">
+                    <form method="post" asp-action="CreateRecipe">
                         <div class="card-body">
                             <div class="form-group">
                                 @Html.Label("Tarif Adı:")

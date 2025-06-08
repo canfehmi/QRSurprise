@@ -6,7 +6,7 @@
         public string Title { get; set; } = default!;
         public string Ingredients { get; set; } = default!;
         public string Instruction { get; set; } = default!;
-        public int RecipeCategoryId { get; set; }
-        public RecipeCategory RecipeCategory { get; set; } = default!;
+        public int? RecipeCategoryId { get; set; }
+        public RecipeCategory? RecipeCategory { get; set; }
     }
 }

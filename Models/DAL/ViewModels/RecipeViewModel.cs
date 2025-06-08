@@ -5,7 +5,7 @@ namespace QRSurprise.Models.DAL.ViewModels
 {
     public class RecipeViewModel
     {
-        public Recipe Recipe { get; set; } = default!;
+        public Recipe? Recipe { get; set; } = default!;
         public IEnumerable<SelectListItem>? Categories { get; set; }
     }
 }

@@ -24,6 +24,7 @@
 					</div>
 
 					<form method="post" asp-action="EditRecipe">
+                        <input type="hidden" asp-for="Recipe.Id" />
 						<div class="form-group">
 							<label>Başlık</label>
 							<input asp-for="Recipe.Title" class="form-control" />

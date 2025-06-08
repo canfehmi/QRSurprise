@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using QRSurprise.Models.DAL.Context;
 using QRSurprise.Models.DAL.Entities;
 using QRSurprise.Models.DAL.ViewModels;
+using X.PagedList.Extensions;
 
 namespace QRSurprise.Controllers
 {
@@ -16,9 +17,9 @@ namespace QRSurprise.Controllers
             _context = context;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(int page = 1, int pageSize = 5)
         {
-            var values = _context.Recipes.Include(x => x.RecipeCategory).ToList();
+            var values = _context.Recipes.Include(x => x.RecipeCategory).OrderByDescending(x=>x.Id).ToPagedList(page,pageSize);
             return View(values);
         }
         public IActionResult Details(int id)
@@ -42,17 +43,22 @@ namespace QRSurprise.Controllers
         [HttpPost]
         public IActionResult CreateRecipe(Recipe model)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Recipes.Add(model);
-                _context.SaveChanges();
-                return RedirectToAction("Index");
-            }
             ViewBag.Categories = _context.RecipeCategories.Select(x => new SelectListItem
             {
                 Value = x.Id.ToString(),
                 Text = x.Title
             }).ToList();
+            if (ModelState.IsValid)
+            {
+                var category = _context.RecipeCategories.Find(model.RecipeCategoryId);
+                if(category!= null)
+                {
+                    model.RecipeCategory = category;
+                }
+                _context.Recipes.Add(model);
+                _context.SaveChanges();
+                return RedirectToAction("Index");
+            }
             return View(model);
         }
         public IActionResult DeleteRecipe(int id)
