@@ -12,5 +12,7 @@ namespace QRSurprise.Models.DAL.Context
         public DbSet<Image> Images { get; set; }
         public DbSet<Proverb> Proverbs { get; set; }
         public DbSet<Sound> Sounds { get; set; }
+        public DbSet<Recipe> Recipes { get; set; }
+        public DbSet<RecipeCategory> RecipeCategories { get; set; }
     }
 }

@@ -1,14 +1,24 @@
 ﻿@model QRSurprise.Models.DAL.Entities.Proverb
+@{
+	string content = Model.WhoSay?.Trim();
+	bool isYouTube = !string.IsNullOrEmpty(content) &&
+						(content.Contains("youtube.com") || content.Contains("youtu.be"));
+}
 <div class="inner">
 	<header>
-		<h1>@ViewBag.Proverb</h1>
-		<p>
-			@ViewBag.WhoSay
-		</p>
+		<h1>@Model.FullProverb</h1>
+		@if (isYouTube)
+		{
+			<a href="@content" target="_blank">@content</a>
+		}
+		else
+		{
+			<p>@content</p>
+		}
 	</header>
 	@using (Html.BeginForm("ReadIt", "Home", FormMethod.Post))
     {
-        <div class="form-group">
+        <div class="form-group" style="margin-top:4rem;">
 			<button class="btn btn-success" onclick="return confirm('Bu mesajı okudun, Yakında yenisini ekleyeceğim?')">Sevdim Bunu</button>
         </div>
     }

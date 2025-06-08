@@ -1,0 +1,44 @@
+﻿@model QRSurprise.Models.DAL.Entities.RecipeCategory;
+@{
+    ViewData["Title"] = "EditCategory";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Kategori Düzenle</h1>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">Kategori <small>Düzenleme Ekranı</small></h3>
+                    </div>
+                    <form method="post" asp-action="EditCategory">
+                        <div class="card-body">
+                            <div class="form-group">
+                                @Html.Label("Kategori Adı:")
+                                @Html.TextBoxFor(x => x.Title, new { @class = "form-control" })
+                            </div>
+                        </div>
+
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-primary">Güncelle</button>
+                            <a href="/Category/DeleteCategory/@Model.Id" class="btn btn-danger">Sil</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

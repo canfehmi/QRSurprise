@@ -9,8 +9,16 @@ namespace QRSurprise.ViewComponents
 
         public IViewComponentResult Invoke()
         {
-            ViewBag.Proverb = _context.Proverbs.FirstOrDefault(x => x.IsActive == true).FullProverb;
-            ViewBag.WhoSay = _context.Proverbs.FirstOrDefault(x => x.IsActive == true).WhoSay;
+            var value = _context.Proverbs.FirstOrDefault(x => x.IsActive == true);
+            if (value != null)
+            {
+                return View(value);
+            }
+            else
+            {
+                ViewBag.Proverb = "No proverb available";
+                ViewBag.Author = "Unknown";
+            }
             return View();
         }
     }

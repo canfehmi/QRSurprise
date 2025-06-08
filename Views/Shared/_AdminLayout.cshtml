@@ -18,6 +18,21 @@
     <link rel="stylesheet" href="/admin/dist/css/adminlte.min.css">
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+    <script src="https://cdn.tiny.cloud/1/u2udnux11375h2vol6rl3as3yanoxc0d48x4j2m1d2rbf7hh/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+    <script>
+        tinymce.init({
+            selector: '.tinymce',
+            height: 300,
+            plugins: 'lists link image table code',
+            toolbar: 'undo redo | styleselect | bold italic underline | alignleft aligncenter alignright alignjustify | outdent indent | bullist numlist | link image | code',
+            menubar: false,
+            setup: function (editor) {
+                editor.on('change', function () {
+                    editor.save(); // BU SATIR ZORUNLU!
+                });
+            }
+        });
+    </script>
 </head>
 <body class="hold-transition sidebar-mini">
     <!-- Site wrapper -->

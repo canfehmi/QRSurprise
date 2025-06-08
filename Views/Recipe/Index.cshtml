@@ -1,0 +1,65 @@
+﻿@model List<QRSurprise.Models.DAL.Entities.Recipe>;
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Tarifler</h1>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+<div class="card">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-md-6">
+                <h3 class="card-title">Tarif Listesi</h3>
+            </div>
+            <div class="col-md-6 justify-content-end d-flex">
+                <a href="/Proverb/CreateProverb/" class="btn btn-primary">Yeni Tarif Ekle</a>
+            </div>
+        </div>
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body">
+        <table id="example1" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Adı</th>
+                    <th>Kategorisi</th>
+                    <th>Düzenle</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Id</td>
+                        <td>@item.Title</td>
+                        <td>@item.RecipeCategory.Title</td>
+                        <td><a href="/Proverb/UpdateProverb/@item.Id" class="btn btn-warning">Düzenle</a></td>
+                    </tr>
+                }
+
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th>ID</th>
+                    <th>Adı</th>
+                    <th>Kategorisi</th>
+                    <th>Düzenle</th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+    <!-- /.card-body -->
+</div>
+
+
+
