@@ -2,8 +2,9 @@
 using QRSurprise.Models.DAL.Context;
 using QRSurprise.Models.DAL.Entities;
 
-namespace QRSurprise.Controllers
+namespace QRSurprise.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class CategoryController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -60,7 +61,9 @@ namespace QRSurprise.Controllers
             {
                 return NotFound();
             }
-            return View(category);
+            _context.RecipeCategories.Remove(category);
+            _context.SaveChanges();
+            return RedirectToAction("Index");
         }
     }
 }

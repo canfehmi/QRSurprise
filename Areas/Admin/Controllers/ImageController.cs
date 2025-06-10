@@ -2,8 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using QRSurprise.Models.DAL.Context;
 
-namespace QRSurprise.Controllers
+namespace QRSurprise.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class ImageController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -24,7 +25,7 @@ namespace QRSurprise.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult CreateImage(QRSurprise.Models.DAL.Entities.Image img)
+        public IActionResult CreateImage(Models.DAL.Entities.Image img)
         {
             if (ModelState.IsValid)
             {
@@ -51,7 +52,7 @@ namespace QRSurprise.Controllers
             return View(image);
         }
         [HttpPost]
-        public IActionResult UpdateImage(QRSurprise.Models.DAL.Entities.Image image)
+        public IActionResult UpdateImage(Models.DAL.Entities.Image image)
         {
             if (ModelState.IsValid)
             {

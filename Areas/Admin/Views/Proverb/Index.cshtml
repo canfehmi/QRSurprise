@@ -1,15 +1,14 @@
-﻿@model List<QRSurprise.Models.DAL.Entities.Image>
+﻿@model List<QRSurprise.Models.DAL.Entities.Proverb>
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
-
 ﻿
 <section class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Fotoğraflar</h1>
+                <h1>Sözler</h1>
             </div>
         </div>
     </div><!-- /.container-fluid -->
@@ -19,10 +18,10 @@
     <div class="card-header">
         <div class="row">
             <div class="col-md-6">
-                <h3 class="card-title">Fotoğraf Listesi</h3>
+                <h3 class="card-title">Sözler Listesi</h3>
             </div>
             <div class="col-md-6 justify-content-end d-flex">
-                <a href="/Image/CreateImage/" class="btn btn-primary">Yeni Fotoğraf Ekle</a>
+                <a href="/Admin/Proverb/CreateProverb/" class="btn btn-primary">Yeni Söz Ekle</a>
             </div>
         </div>
     </div>
@@ -32,9 +31,10 @@
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Açıklama</th>
+                    <th>Söz</th>
+                    <th>Kim Söyledi?</th>
                     <th>Aktivasyon Kodu</th>
-                    <th>Görsel</th>
+                    <th>Okundu Bilgisi</th>
                     <th>Düzenle</th>
                 </tr>
             </thead>
@@ -44,10 +44,11 @@
                 {
                     <tr>
                         <td>@item.Id</td>
-                        <td>@item.Description</td>
+                        <td>@item.FullProverb</td>
+                        <td>@item.WhoSay</td>
                         <td>@item.IsActive</td>
-                        <td><img src="@item.ImageUrl" style="width:100px; height:100px" /></td>
-                        <td><a href="/Image/UpdateImage/@item.Id" class="btn btn-warning">Düzenle</a></td>
+                        <td>@item.IsRead</td>
+                        <td><a href="/Admin/Proverb/UpdateProverb/@item.Id" class="btn btn-warning">Düzenle</a></td>
                     </tr>
                 }
 
@@ -55,9 +56,10 @@
             <tfoot>
                 <tr>
                     <th>ID</th>
-                    <th>Açıklama</th>
+                    <th>Söz</th>
+                    <th>Kim Söyledi?</th>
                     <th>Aktivasyon Kodu</th>
-                    <th>Görsel</th>
+                    <th>Okundu Bilgisi</th>
                     <th>Düzenle</th>
                 </tr>
             </tfoot>
@@ -65,6 +67,4 @@
     </div>
     <!-- /.card-body -->
 </div>
-
-
 

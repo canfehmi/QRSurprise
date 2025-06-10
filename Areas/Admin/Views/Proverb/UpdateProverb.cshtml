@@ -1,6 +1,6 @@
-﻿@model QRSurprise.Models.DAL.Entities.Image;
+﻿@model QRSurprise.Models.DAL.Entities.Proverb
 @{
-    ViewData["Title"] = "UpdateImage";
+    ViewData["Title"] = "UpdateProverb";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
@@ -21,27 +21,31 @@
             <div class="col-md-12">
                 <div class="card card-primary">
                     <div class="card-header">
-                        <h3 class="card-title">Fotoğraf <small>Düzenleme Ekranı</small></h3>
+                        <h3 class="card-title">Söz <small>Düzenleme Ekranı</small></h3>
                     </div>
-                    <form method="post" asp-action="UpdateImage">
+                    <form method="post" asp-action="UpdateProverb">
                         <div class="card-body">
                             <div class="form-group">
-                                @Html.Label("Fotoğraf Açıklaması:")
-                                @Html.TextAreaFor(x => x.Description, new { @class = "form-control" })
+                                @Html.Label("Sözün Tamamı:")
+                                @Html.TextAreaFor(x => x.FullProverb, new { @class = "form-control" })
                             </div>
                             <div class="form-group">
-                                @Html.Label("Aktivasyon Kodu:")
-                                @Html.TextBoxFor(x => x.IsActive, new { @class = "form-control" })
+                                @Html.Label("Sözün Sahibi:")
+                                @Html.TextBoxFor(x => x.WhoSay, new { @class = "form-control" })
                             </div>
                             <div class="form-group">
-                                @Html.Label("Fotoğraf URL:")
+                                @Html.Label("Resim URL:")
                                 @Html.TextBoxFor(x => x.ImageUrl, new { @class = "form-control" })
+                            </div>
+                            <div class="form-group">
+                                @Html.Label("Aktivasyon Kodu")
+                                @Html.TextBoxFor(x => x.IsActive, new { @class = "form-control" })
                             </div>
                         </div>
 
                         <div class="card-footer">
                             <button type="submit" class="btn btn-primary">Güncelle</button>
-                            <a href="/Image/DeleteImage/@Model.Id" class="btn btn-danger">Sil</a>
+                            <a href="/Admin/Proverb/DeleteProverb/@Model.Id" class="btn btn-danger">Sil</a>
                         </div>
                     </form>
                 </div>
@@ -49,5 +53,4 @@
         </div>
     </div>
 </section>
-
 

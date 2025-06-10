@@ -2,8 +2,9 @@
 using QRSurprise.Models.DAL.Context;
 using QRSurprise.Models.DAL.Entities;
 
-namespace QRSurprise.Controllers
+namespace QRSurprise.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class ProverbController : Controller
     {
         ApplicationDbContext _context = new ApplicationDbContext();
