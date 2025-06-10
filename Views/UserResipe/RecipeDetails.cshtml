@@ -1,0 +1,16 @@
+﻿@model QRSurprise.Models.DAL.Entities.Recipe
+@{
+    ViewData["Title"] = "RecipeDetails";
+    Layout = "~/Views/Shared/_RecipesLayout.cshtml";
+}
+<div class="card shadow-sm">
+    <div class="card-body">
+        <h2 class="card-title">@Model.Title</h2>
+        <p class="text-muted">@Model.RecipeCategory.Title</p>
+        <hr />
+        <h5>Malzemeler:</h5>
+        <p>@Model.Ingredients</p>
+        <h5>Hazırlanışı:</h5>
+        <p>@Model.Instruction</p>
+    </div>
+</div>
