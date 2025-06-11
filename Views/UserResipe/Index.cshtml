@@ -1,31 +1,44 @@
-﻿@model List<QRSurprise.Models.DAL.Entities.Recipe>
+﻿@using X.PagedList.Mvc.Core
+@model QRSurprise.Models.DAL.ViewModels.RecipeIndexViewModel
 @{
-    ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_RecipesLayout.cshtml";
-    var categories = ViewBag.Categories;
+	ViewData["Title"] = "Index";
+	Layout = "~/Views/Shared/_RecipesLayout.cshtml";
+
 }
 <h2>Yemek Tarifleri</h2>
+<div class="container my-4">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">Tarif Filtreleme</h5>
+        </div>
 
-<form method="get" class="row g-2 mb-4">
-    <div class="col-md-4">
-        <select name="category" class="form-select" onchange="this.form.submit()">
-            <option value="">Tüm Kategoriler</option>
-            @foreach (var k in categories)
-            {
-                <option value="@k" >@k</option>
-            }
-        </select>
+        <div class="collapse show" id="filterForm">
+            <form method="post" asp-action="GetRecipeByCategory">
+                <div class="card-body">
+                    <div class="row g-3 align-items-end">
+                        <div class="col-md-6">
+                            <label asp-for="SelectedCategoryId" class="form-label fw-bold">Kategori Seçin</label>
+                            @Html.DropDownListFor(
+                                     m => m.SelectedCategoryId,
+                                     (SelectList)ViewBag.Categories,
+                                     "Kategori Seçiniz...",
+                                     new { @class = "form-control" })
+                        </div>
+                        <div class="col-md-4">
+                            <button type="submit" class="btn btn-success w-100 mt-md-0 mt-2">
+                                <i class="fas fa-filter"></i> Filtrele
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
-    <div class="col-md-6">
-        <input type="text" name="arama" class="form-control" placeholder="Yemek ara..." value="@ViewBag.Search" />
-    </div>
-    <div class="col-md-2">
-        <button type="submit" class="btn btn-primary w-100">Ara</button>
-    </div>
-</form>
+</div>
+
 
 <div class="row">
-    @foreach (var item in Model)
+    @foreach (var item in Model.Recipes)
     {
         <div class="col-md-4 mb-4">
             <div class="card h-100 shadow-sm">
@@ -37,4 +50,18 @@
             </div>
         </div>
     }
+</div>
+<div class="d-flex justify-content-center mt-4">
+    @Html.PagedListPager(Model.Recipes, page => Url.Action("Index", new { page }), new PagedListRenderOptions
+{
+    DisplayLinkToFirstPage = PagedListDisplayMode.Always,
+    DisplayLinkToLastPage = PagedListDisplayMode.Always,
+    DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+    DisplayLinkToNextPage = PagedListDisplayMode.Always,
+    Display = PagedListDisplayMode.IfNeeded,
+    MaximumPageNumbersToDisplay = 5,
+    UlElementClasses = new[] { "pagination" },
+    LiElementClasses = new[] { "page-item" },
+    PageClasses = new[] { "page-link" }
+})
 </div>

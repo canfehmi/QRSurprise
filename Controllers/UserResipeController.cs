@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using QRSurprise.Models.DAL.Context;
 using QRSurprise.Models.DAL.Entities;
+using QRSurprise.Models.DAL.ViewModels;
+using X.PagedList.Extensions;
 
 namespace QRSurprise.Controllers
 {
@@ -14,24 +17,22 @@ namespace QRSurprise.Controllers
             _context = context;
         }
 
-        public IActionResult Index(RecipeCategory? category, string? search)
+        public IActionResult Index(int? page)
         {
-            var recipes = _context.Recipes.Include(x=>x.RecipeCategory).AsQueryable();
-            //if (category != null)
-            //{
-            //    recipes = recipes.Where(r => r.RecipeCategory == category);
-            //}
-            if(!string.IsNullOrEmpty(search))
+            int pageSize = 6;
+            int pageNumber = page ?? 1;
+            var recipes = _context.Recipes
+                .Include(r => r.RecipeCategory)
+                .OrderByDescending(r => r.Id)
+                .ToPagedList(pageNumber, pageSize);
+
+            ViewBag.Categories = new SelectList(_context.RecipeCategories, "Id", "Title");
+            var model = new RecipeIndexViewModel
             {
-                recipes = recipes.Where(r => r.Title.Contains(search) || r.Instruction.Contains(search));
-            }
-            ViewBag.Categories = _context.Recipes
-                .Select(r => r.RecipeCategory)
-                .Distinct()
-                .ToList();
-            ViewBag.Search = search;
-            ViewBag.CurrentCategory = category;
-            return View(recipes.ToList());
+                Recipes = recipes
+            };
+
+            return View(model);
         }
         public IActionResult RecipeDetails(int id)
         {
@@ -44,5 +45,25 @@ namespace QRSurprise.Controllers
             }
             return View(recipe);
         }
+        [HttpPost]
+        public IActionResult GetRecipeByCategory(RecipeIndexViewModel model, int? page)
+        {
+            int pageSize = 6;
+            int pageNumber = page ?? 1;
+
+            var filteredRecipes = _context.Recipes
+                .Include(r => r.RecipeCategory)
+                .Where(r => r.RecipeCategoryId == model.SelectedCategoryId)
+                .OrderByDescending(r => r.Id)
+                .ToPagedList(pageNumber, pageSize);
+
+            model.Recipes = filteredRecipes;
+
+            ViewBag.Categories = new SelectList(_context.RecipeCategories, "Id", "Title", model.SelectedCategoryId);
+
+            return View("Index", model); 
+        }
+
+
     }
 }

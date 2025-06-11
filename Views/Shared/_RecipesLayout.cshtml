@@ -9,11 +9,28 @@
     <title>I Will Always Love You</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
     @* <link rel="stylesheet" href="~/css/site.css" /> *@
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.tiny.cloud/1/u2udnux11375h2vol6rl3as3yanoxc0d48x4j2m1d2rbf7hh/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+    <script>
+        tinymce.init({
+            selector: '.tinymce',
+            height: 300,
+            plugins: 'lists link image table code',
+            toolbar: 'undo redo | styleselect | bold italic underline | alignleft aligncenter alignright alignjustify | outdent indent | bullist numlist | link image | code',
+            menubar: false,
+            setup: function (editor) {
+                editor.on('change', function () {
+                    editor.save(); // BU SATIR ZORUNLU!
+                });
+            }
+        });
+    </script>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
-            <a class="navbar-brand" href="/">qrsurprise</a>
+            <a class="navbar-brand" href="/">Kardelenyus</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>

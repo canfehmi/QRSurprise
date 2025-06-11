@@ -1,0 +1,10 @@
+﻿@model List<QRSurprise.Models.DAL.Entities.Recipe>
+@foreach (var recipe in Model)
+{
+    <div>
+        <h3>@recipe.Title</h3>
+        <p><strong>Kategori:</strong> @recipe.RecipeCategory.Title</p>
+        <a href="@Url.Action("RecipeDetails", "UserResipe", new { id = recipe.Id })" class="btn btn-primary">Tarifi Gör</a>
+    </div>
+    <hr />
+}
