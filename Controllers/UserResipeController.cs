@@ -61,9 +61,25 @@ namespace QRSurprise.Controllers
 
             ViewBag.Categories = new SelectList(_context.RecipeCategories, "Id", "Title", model.SelectedCategoryId);
 
-            return View("Index", model); 
+            return View("Index", model);
         }
+        [HttpPost]
+        public IActionResult SearchRecipes(string searchTerm, int? page)
+        {
+            int pageSize = 6;
+            int pageNumber = page ?? 1;
+            var recipes = _context.Recipes
+                .Include(r => r.RecipeCategory)
+                .Where(r => r.Title.Contains(searchTerm) || r.Ingredients.Contains(searchTerm))
+                .OrderByDescending(r => r.Id)
+                .ToPagedList(pageNumber, pageSize);
+            ViewBag.Categories = new SelectList(_context.RecipeCategories, "Id", "Title");
+            var model = new RecipeIndexViewModel
+            {
+                Recipes = recipes
+            };
+            return View("Index", model);
 
-
+        }
     }
 }
