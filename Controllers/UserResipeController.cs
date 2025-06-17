@@ -45,6 +45,26 @@ namespace QRSurprise.Controllers
             }
             return View(recipe);
         }
+        [HttpGet]
+        public IActionResult GetRecipeByCategory(int categoryId, int? page)
+        {
+            int pageSize = 6;
+            int pageNumber = page ?? 1;
+
+            var filteredRecipes = _context.Recipes
+                .Include(r => r.RecipeCategory)
+                .Where(r => r.RecipeCategoryId == categoryId)
+                .OrderByDescending(r => r.Id)
+                .ToPagedList(pageNumber, pageSize);
+
+            var model = new RecipeIndexViewModel
+            {
+                Recipes = filteredRecipes,
+                SelectedCategoryId = categoryId
+            };
+
+            return PartialView("_RecipeListPartial", model);
+        }
         [HttpPost]
         public IActionResult GetRecipeByCategory(RecipeIndexViewModel model, int? page)
         {
@@ -58,13 +78,33 @@ namespace QRSurprise.Controllers
                 .ToPagedList(pageNumber, pageSize);
 
             model.Recipes = filteredRecipes;
-
-            ViewBag.Categories = new SelectList(_context.RecipeCategories, "Id", "Title", model.SelectedCategoryId);
-
-            return View("Index", model);
+            return PartialView("_RecipeListPartial", model);
         }
-        [HttpPost]
+
+        [HttpGet]
         public IActionResult SearchRecipes(string searchTerm, int? page)
+        {
+            int pageSize = 6;
+            int pageNumber = page ?? 1;
+
+            var recipes = _context.Recipes
+                .Include(r => r.RecipeCategory)
+                .Where(r => r.Title.Contains(searchTerm) || r.Ingredients.Contains(searchTerm))
+                .OrderByDescending(r => r.Id)
+                .ToPagedList(pageNumber, pageSize);
+
+            var model = new RecipeIndexViewModel
+            {
+                Recipes = recipes,
+                SearchTerm = searchTerm
+            };
+
+            return PartialView("_RecipeListPartial", model);
+        }
+
+
+        [HttpPost]
+        public IActionResult SearchRecipesPost(string searchTerm, int? page)
         {
             int pageSize = 6;
             int pageNumber = page ?? 1;
@@ -73,13 +113,12 @@ namespace QRSurprise.Controllers
                 .Where(r => r.Title.Contains(searchTerm) || r.Ingredients.Contains(searchTerm))
                 .OrderByDescending(r => r.Id)
                 .ToPagedList(pageNumber, pageSize);
-            ViewBag.Categories = new SelectList(_context.RecipeCategories, "Id", "Title");
+
             var model = new RecipeIndexViewModel
             {
                 Recipes = recipes
             };
-            return View("Index", model);
-
+            return PartialView("_RecipeListPartial", model);
         }
     }
 }

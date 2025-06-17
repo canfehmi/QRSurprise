@@ -38,7 +38,7 @@
                                 @Html.TextAreaFor(x => x.Instruction, new { @class = "form-control tinymce" })
                             </div>
                             <div class="form-group">
-                                @Html.Label("Yemek Adı:")
+                                @Html.Label("Kategori:")
                                 @Html.DropDownListFor(x => x.RecipeCategoryId, (SelectList)ViewBag.Categories, "Kategori Seçiniz.", new { @class = "form-control" })
                             </div>
                         </div>

@@ -1,10 +1,49 @@
-﻿@model List<QRSurprise.Models.DAL.Entities.Recipe>
-@foreach (var recipe in Model)
-{
-    <div>
-        <h3>@recipe.Title</h3>
-        <p><strong>Kategori:</strong> @recipe.RecipeCategory.Title</p>
-        <a href="@Url.Action("RecipeDetails", "UserResipe", new { id = recipe.Id })" class="btn btn-primary">Tarifi Gör</a>
-    </div>
-    <hr />
-}
+﻿@using X.PagedList.Mvc.Core
+@model QRSurprise.Models.DAL.ViewModels.RecipeIndexViewModel
+
+<div class="row">
+    @foreach (var item in Model.Recipes)
+    {
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">@item.Title</h5>
+                    <p class="card-text text-truncate">@item.RecipeCategory.Title</p>
+                    <a href="@Url.Action("RecipeDetails", "UserResipe", new { id = item.Id })" class="btn btn-primary">Tarifi Gör</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+<div class="d-flex justify-content-center mt-4">
+    @if (!string.IsNullOrEmpty(Model.SearchTerm))
+    {
+        @Html.PagedListPager(Model.Recipes, page =>
+                Url.Action("SearchRecipes", "UserResipe", new { searchTerm = Model.SearchTerm, page }),
+                new PagedListRenderOptions
+    {
+        LiElementClasses = new[] { "page-item" },
+        PageClasses = new[] { "page-link", "ajax-page-link" }
+    })
+    }
+    else if (Model.SelectedCategoryId != null && Model.SelectedCategoryId != 0)
+    {
+        @Html.PagedListPager(Model.Recipes, page =>
+                Url.Action("GetRecipeByCategory", "UserResipe", new { categoryId = Model.SelectedCategoryId, page }),
+                new PagedListRenderOptions
+    {
+        LiElementClasses = new[] { "page-item" },
+        PageClasses = new[] { "page-link", "ajax-page-link" }
+    })
+    }
+    else
+    {
+        @Html.PagedListPager(Model.Recipes, page =>
+                Url.Action("Index", "UserResipe", new { page }),
+                new PagedListRenderOptions
+    {
+        LiElementClasses = new[] { "page-item" },
+        PageClasses = new[] { "page-link", "ajax-page-link" }
+    })
+    }
+</div>

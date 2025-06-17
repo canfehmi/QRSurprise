@@ -7,5 +7,7 @@ namespace QRSurprise.Models.DAL.ViewModels
     {
         public int? SelectedCategoryId { get; set; }
         public IPagedList<Recipe> Recipes { get; set; }
+        public string? SearchTerm { get; set; }
+
     }
 }
