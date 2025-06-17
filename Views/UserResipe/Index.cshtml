@@ -1,96 +1,169 @@
 ﻿@using X.PagedList.Mvc.Core
 @model QRSurprise.Models.DAL.ViewModels.RecipeIndexViewModel
 @{
-    ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_RecipesLayout.cshtml";
+	ViewData["Title"] = "Index";
+	Layout = "~/Views/Shared/_RecipesLayout.cshtml";
 
 }
 <div class="container my-4">
-    <div class="card shadow-sm">
-        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
-            <h5 class="mb-0">Tarif Filtreleme</h5>
-        </div>
+	<div class="card shadow-sm">
+		<div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+			<h5 class="mb-0">Tarif Filtreleme</h5>
+		</div>
 
-        <div class="collapse show" id="filterForm">
-            <form method="post" id="categoryFilterForm">
-                <div class="card-body">
-                    <div class="row g-3 align-items-end">
-                        <div class="col-md-6">
-                            <label asp-for="SelectedCategoryId" class="form-label fw-bold">Kategori Seçin</label>
-                            @Html.DropDownListFor(
-                                     m => m.SelectedCategoryId,
-                                     (SelectList)ViewBag.Categories,
-                                     "Kategori Seçiniz...",
-                                     new { @class = "form-control" })
-                        </div>
-                        <div class="col-md-4">
-                            <button type="submit" class="btn btn-success w-100 mt-md-0 mt-2">
-                                <i class="fas fa-filter"></i> Filtrele
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
+		<div class="collapse show" id="filterForm">
+			<form method="post" id="categoryFilterForm">
+				<div class="card-body">
+					<div class="row g-3 align-items-end">
+						<div class="col-md-6">
+							<label asp-for="SelectedCategoryId" class="form-label fw-bold">Kategori Seçin</label>
+							@Html.DropDownListFor(
+																m => m.SelectedCategoryId,
+																(SelectList)ViewBag.Categories,
+																"Kategori Seçiniz...",
+																new { @class = "form-control" })
+						</div>
+						<div class="col-md-4">
+							<button type="submit" class="btn btn-success w-100 mt-md-0 mt-2">
+								<i class="fas fa-filter"></i> Filtrele
+							</button>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
 </div>
 <div class="container my-4">
-    <div class="card shadow-sm">
-        <form id="searchForm" method="post" class="row g-2 mb-4">
-            <div class="col-12 col-sm-8 col-md-10">
-                <input type="text" name="searchTerm" class="form-control" placeholder="Yemek ara..." />
-            </div>
-            <div class="col-12 col-sm-4 col-md-2">
-                <button type="submit" class="btn btn-primary w-100">
-                    <i class="bi bi-search"></i> Ara
-                </button>
-            </div>
-        </form>
-    </div>
+	<div class="card shadow-sm">
+		<form id="searchForm" method="post" class="row g-2 mb-4">
+			<div class="col-12 col-sm-8 col-md-10">
+				<input type="text" name="searchTerm" class="form-control" placeholder="Yemek ara..." />
+			</div>
+			<div class="col-12 col-sm-4 col-md-2">
+				<button type="submit" class="btn btn-primary w-100">
+					<i class="bi bi-search"></i> Ara
+				</button>
+			</div>
+		</form>
+	</div>
 </div>
 <div class="container my-4">
-    <div class="card shadow-sm">
-        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
-            <h5 class="mb-0">Tarif Tarifleri</h5>
-        </div>
+	<div class="card shadow-sm">
+		<div class="card-body">
+			<div class="row g-3 align-items-end">
+				<div class="col-md-6">
+					<label class="form-label fw-bold">Kategori Seçin</label>
+					<select id="randomCategorySelect" class="form-control">
+						<option value="">Kategori seçiniz...</option>
+						@foreach (var cat in (SelectList)ViewBag.Categories)
+						{
+							<option value="@cat.Value">@cat.Text</option>
+						}
+					</select>
+				</div>
+				<div class="col-md-4">
+					<button id="suggestRandomBtn" class="btn btn-warning w-100">
+						Kararsızım! Bana bir tarif öner
+					</button>
+				</div>
+			</div>
+			<div id="randomRecipeContainer" class="mt-3"></div>
+		</div>
+	</div>
+</div>
+<div class="container my-4">
+	<div class="card shadow-sm">
+		<div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+			<h5 class="mb-0">Tarif Tarifleri</h5>
+		</div>
 
-        <div id="recipeListContainer">
-            @Html.Partial("_RecipeListPartial", Model)
-        </div>
-    </div>
+		<div id="recipeListContainer">
+			@Html.Partial("_RecipeListPartial", Model)
+		</div>
+	</div>
+</div>
+<div class="modal fade" id="randomRecipeModal" tabindex="-1" aria-labelledby="randomRecipeModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered">
+		<div class="modal-content shadow-lg">
+			<div class="modal-header bg-warning text-dark">
+				<h5 class="modal-title fw-bold" id="randomRecipeModalLabel">Sana Önerimiz!</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Kapat"></button>
+			</div>
+			<div class="modal-body" id="randomRecipeModalContent">
+				<!-- Rastgele tarif buraya yüklenecek -->
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Kapat</button>
+				<button type="button" class="btn btn-warning" id="refreshRandomRecipeBtn">Bir tane daha!</button>
+			</div>
+		</div>
+	</div>
 </div>
 <script>
-    $(document).ready(function () {
-        $('#categoryFilterForm').submit(function (e) {
-            e.preventDefault();
-            $.ajax({
-                url: '@Url.Action("GetRecipeByCategory", "UserResipe")',
-                type: 'POST',
-                data: $(this).serialize(),
-                success: function (result) {
-                    $('#recipeListContainer').html(result);
-                }
-            });
-        });
+	$(document).ready(function () {
+		$('#categoryFilterForm').submit(function (e) {
+			e.preventDefault();
+			$.ajax({
+				url: '@Url.Action("GetRecipeByCategory", "UserResipe")',
+				type: 'POST',
+				data: $(this).serialize(),
+				success: function (result) {
+					$('#recipeListContainer').html(result);
+				}
+			});
+		});
 
-        $('#searchForm').submit(function (e) {
-            e.preventDefault();
-            $.ajax({
-                url: '@Url.Action("SearchRecipesPost", "UserResipe")',
-                type: 'POST',
-                data: $(this).serialize(),
-                success: function (result) {
-                    $('#recipeListContainer').html(result);
-                }
-            });
-        });
-    });
-        $(document).on('click', '.ajax-page-link', function (e) {
-        e.preventDefault();
-        const url = $(this).attr('href');
-        $.get(url, function (result) {
-            $('#recipeListContainer').html(result);
-        });
-    });
+		$('#searchForm').submit(function (e) {
+			e.preventDefault();
+			$.ajax({
+				url: '@Url.Action("SearchRecipesPost", "UserResipe")',
+				type: 'POST',
+				data: $(this).serialize(),
+				success: function (result) {
+					$('#recipeListContainer').html(result);
+				}
+			});
+		});
+	});
+		$(document).on('click', '.ajax-page-link', function (e) {
+		e.preventDefault();
+		const url = $(this).attr('href');
+		$.get(url, function (result) {
+			$('#recipeListContainer').html(result);
+		});
+	});
 
+
+		let selectedCategoryId = null;
+
+		function loadRandomRecipe() {
+			if (!selectedCategoryId) return;
+
+			$.get('@Url.Action("SuggestRandomRecipe", "UserResipe")', { categoryId: selectedCategoryId }, function (result) {
+				$('#randomRecipeModalContent').html(result);
+				const sound = document.getElementById("dingSound");
+				sound.play();
+			});
+		}
+
+		$('#suggestRandomBtn').click(function () {
+			selectedCategoryId = $('#randomCategorySelect').val();
+
+			if (!selectedCategoryId) {
+				alert("Lütfen bir kategori seçin.");
+				return;
+			}
+
+			// İlk tarifi yükle
+			loadRandomRecipe();
+
+			// Modal aç
+			var modal = new bootstrap.Modal(document.getElementById('randomRecipeModal'));
+			modal.show();
+		});
+
+		$('#refreshRandomRecipeBtn').click(function () {
+			loadRandomRecipe(); // Yeni rastgele tarif getir
+		});
 </script>

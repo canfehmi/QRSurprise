@@ -1,0 +1,9 @@
+﻿@model QRSurprise.Models.DAL.Entities.Recipe
+
+<div class="text-center">
+    <h4 class="fw-bold text-primary">@Model.Title</h4>
+    <p class="text-muted mb-2">Kategori: <strong>@Model.RecipeCategory.Title</strong></p>
+    <a href="@Url.Action("RecipeDetails", "UserResipe", new { id = Model.Id })" class="btn btn-outline-primary mt-2">
+        Tarifi Gör
+    </a>
+</div>

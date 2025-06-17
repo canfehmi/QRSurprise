@@ -120,5 +120,19 @@ namespace QRSurprise.Controllers
             };
             return PartialView("_RecipeListPartial", model);
         }
+        [HttpGet]
+        public IActionResult SuggestRandomRecipe(int categoryId)
+        {
+            var recipe = _context.Recipes
+                .Include(r => r.RecipeCategory)
+                .Where(r => r.RecipeCategoryId == categoryId)
+                .OrderBy(r => Guid.NewGuid()) // Rastgele sıralama
+                .FirstOrDefault();
+
+            if (recipe == null)
+                return Content("Bu kategoride tarif bulunamadı.");
+
+            return PartialView("_RandomRecipePartial", recipe);
+        }
     }
 }
